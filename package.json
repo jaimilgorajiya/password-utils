@@ -1,5 +1,5 @@
 {
-  "name": "@jaimil/password-utils",
+  "name": "password-utils",
   "version": "1.0.0",
   "description": "A lightweight Node.js package for secure password hashing, validation, and comparison using bcrypt.",
   "main": "index.js",
