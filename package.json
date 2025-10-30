@@ -18,6 +18,10 @@
   },
   "author": "Jaimil Gorajiya",
   "license": "MIT",
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/jaimilgorajiya/password-utils"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0"
   }
