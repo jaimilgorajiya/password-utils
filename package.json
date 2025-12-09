@@ -1,5 +1,5 @@
 {
-  "name": "password-utils",
+"name": "@jaimil__gorajiya/password-utils",
   "version": "1.0.0",
   "description": "A lightweight Node.js package for secure password hashing, validation, and comparison using bcrypt.",
   "main": "index.js",
@@ -14,13 +14,16 @@
     "encryption"
   ],
   "scripts": {
-  "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0"
   },
   "author": "Jaimil Gorajiya",
   "license": "MIT",
-   "repository": {
+  "repository": {
     "type": "git",
-    "url": "https://github.com/jaimilgorajiya/password-utils"
+    "url": "git+https://github.com/jaimilgorajiya/password-utils.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "bcrypt": "^6.0.0"

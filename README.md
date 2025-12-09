@@ -1,87 +1,170 @@
-# 🔐 Password Utils
+<div align="center">
 
-A lightweight and secure Node.js utility for **password hashing**, **validation**, and **comparison** — powered by **bcrypt**.  
-Simplify your authentication logic with built-in best practices for security and performance.
+# 🔐 @jaimil__gorajiya/password-utils
+
+Lightweight Node.js utilities for **secure password hashing**, **validation**, **comparison**, and a simple **in-memory rate limiter**.
+
+</div>
 
 ---
 
 ## ✨ Features
 
-- 🔒 **Secure Hashing:** Hash passwords using bcrypt with automatic salting.  
-- 🧠 **Password Validation:** Enforces strong password rules (uppercase, lowercase, number, symbol, and min length).  
-- ⚙️ **Password Comparison:** Compare plain and hashed passwords safely.  
-- 🚦 **Rate Limiter (Optional):** Prevent brute-force attacks with a simple in-memory limiter.  
-- 📦 **Lightweight & Fast:** Minimal dependencies, optimized for Node.js backends.  
+- **Secure hashing** using bcrypt with automatic salting.
+- **Password validation** with strong default rules (length, upper/lowercase, number, special char).
+- **Safe comparison** of plain and hashed passwords.
+- **Simple rate limiter** to throttle repeated actions (e.g. login attempts).
+- ESM-compatible, minimal API, easy to plug into any Node.js backend.
 
 ---
 
-## 📥 Installation
-
-Install the package using npm or yarn:
+## 📦 Installation
 
 ```bash
-npm install password-utils
+npm install @jaimil__gorajiya/password-utils
+# or
+yarn add @jaimil__gorajiya/password-utils
+```
 
-or
+> Requires **Node.js 14+**.
 
-
-yarn add password-utils
 ---
 
+## 🚀 Quick Start
 
-## 🚀 Usage
-
-Here’s a simple example of how to use Password Utils in your Node.js project:
-
-import { hashPassword, verifyPassword, validatePassword, rateLimiter } from "password-utils";
+```js
+import {
+  hashPassword,
+  verifyPassword,
+  validatePassword,
+  rateLimiter,
+} from "@jaimil__gorajiya/password-utils";
 
 (async () => {
-  // ✅ Validate Password
+  // 1. Validate password strength
   const { valid, errors } = validatePassword("Weak123");
-  if (!valid) console.log("Weak password:", errors);
+  if (!valid) {
+    console.log("Weak password:", errors);
+  }
 
-  // 🔐 Hash Password
+  // 2. Hash a password
   const hashed = await hashPassword("Strong@1234");
   console.log("Hashed password:", hashed);
 
-  // 🔍 Compare Passwords
+  // 3. Verify password
   const match = await verifyPassword("Strong@1234", hashed);
-  console.log("Password match:", match);
+  console.log("Password match:", match); // true / false
 
-  // 🚦 Rate Limiter Example
-  const result = rateLimiter("user@example.com");
-  console.log(result);
+  // 4. Basic rate limiting (e.g. per user or IP)
+  const { allowed, message } = rateLimiter("user@example.com");
+  if (!allowed) {
+    console.log(message);
+  }
 })();
+```
 
 ---
 
+## 📚 API Reference
 
-##⚙️ API Reference
+### `hashPassword(password, saltRounds = 10): Promise<string>`
 
-|----------------------------------|-----------------------------------------|-------------------------------------------|
-|         Function                 |            Description                  |            Returns                        |
-|----------------------------------|-----------------------------------------|-------------------------------------------|
-| `validatePassword(password)`     | Validates password strength.            | `{ valid: boolean, errors: string[] }`    |
-| `hashPassword(password)`         | Hashes password securely using bcrypt.  | `Promise<string>`                         |
-| `verifyPassword(plain, hashed)`  | Compares plain and hashed passwords.    | `Promise<boolean>`                        |
-| `rateLimiter(identifier)`        | Tracks attempts to prevent brute-force. | `{ attempts: number, blocked: boolean }`  |
-|----------------------------------|-----------------------------------------|-------------------------------------------|
+Securely hashes a password using bcrypt.
+
+- **password** `string` – Plain text password (required).
+- **saltRounds** `number` – Cost factor for bcrypt. Default: `10`.
+
+Throws an error if `password` is missing.
+
+**Example:**
+
+```js
+const hashed = await hashPassword("Strong@1234", 12);
+```
+
+---
+
+### `verifyPassword(password, hashedPassword): Promise<boolean>`
+
+Compares a plain password against a bcrypt hash.
+
+- **password** `string` – Plain text password.
+- **hashedPassword** `string` – Hashed password from your database.
+
+Returns `true` if they match, otherwise `false`.
+Throws an error if either argument is missing.
+
+**Example:**
+
+```js
+const isValid = await verifyPassword("Strong@1234", hashedFromDb);
+```
+
+---
+
+### `validatePassword(password): { valid: boolean; errors: string[] }`
+
+Validates password strength using the following default rules:
+
+- Minimum length: **8** characters
+- At least **one uppercase** letter
+- At least **one lowercase** letter
+- At least **one number**
+- At least **one special character** `!@#$%^&*(),.?":{}|<>`
+
+**Example:**
+
+```js
+const { valid, errors } = validatePassword("Strong@1234");
+
+if (!valid) {
+  console.log("Password is not strong enough:", errors);
+}
+```
+
+---
+
+### `rateLimiter(identifier, maxAttempts = 5, windowMs = 60000)`
+
+Simple in-memory rate limiter for tracking attempts during a time window.
+
+- **identifier** `string` – Unique key (e.g. user id, email, IP).
+- **maxAttempts** `number` – Max attempts allowed in window. Default: `5`.
+- **windowMs** `number` – Time window in milliseconds. Default: `60000` (1 minute).
+
+Returns:
+
+```ts
+{ allowed: boolean; message?: string }
+```
+
+When the limit is exceeded:
+
+```js
+const { allowed, message } = rateLimiter("login:user@example.com");
+
+if (!allowed) {
+  return res.status(429).json({ message });
+}
+```
+
+> ⚠️ This implementation uses an in-memory store. For production, consider a
+> distributed store (Redis, etc.) if you need multi-instance rate limiting.
 
 ---
 
 ## 📦 Dependencies
 
-bcrypt: ^6.0.0
-Node.js: >=14
+- `bcryptjs`
+- Node.js `>= 14`
 
 ---
 
+## 🧱 Tech Stack
 
-## 🏗️ Tech Stack
-
-Node.js
-bcrypt
-JavaScript (ESM Modules)
+- Node.js
+- JavaScript (ES modules)
+- bcryptjs
 
 ---
 
@@ -91,7 +174,12 @@ MIT © [Jaimil Gorajiya](https://github.com/jaimilgorajiya)
 
 ---
 
-## 💡 Support
+## ⭐ Support
 
-If you find this package helpful, please give it a ⭐ on [GitHub](https://github.com/jaimilgorajiya/password-utils)!  
-Made with ❤️ by [Jaimil Gorajiya](https://github.com/jaimilgorajiya)
+If you find this package helpful:
+
+- **Star** the repo on GitHub: <https://github.com/jaimilgorajiya/password-utils>
+- **Share** it in your projects and with your team.
+
+Made by [Jaimil Gorajiya](https://github.com/jaimilgorajiya).
+
