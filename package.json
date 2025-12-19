@@ -1,6 +1,6 @@
 {
   "name": "@jaimilgorajiya/password-utils",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A lightweight Node.js package for secure password hashing, validation, and comparison using bcrypt.",
   "main": "index.js",
   "type": "module",
@@ -36,6 +36,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@jaimilgorajiya/password-utils": "^1.0.1",
     "bcryptjs": "^2.4.3"
   }
 }

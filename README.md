@@ -209,7 +209,7 @@ import {
   verifyPassword,
   validatePassword,
   rateLimiter,
-} from "@jaimil__gorajiya/password-utils";
+} from "@jaimilgorajiya/password-utils";
 
 const app = express();
 app.use(express.json());
@@ -277,7 +277,7 @@ app.use((req, res, next) => {
 ### Password Strength Checker UI
 
 ```javascript
-import { validatePassword } from "@jaimil__gorajiya/password-utils";
+import { validatePassword } from "@jaimilgorajiya/password-utils";
 
 function checkPasswordStrength(password) {
   const { valid, errors } = validatePassword(password);
@@ -308,7 +308,7 @@ import {
   verifyPassword,
   validatePassword,
   rateLimiter,
-} from "@jaimil__gorajiya/password-utils";
+} from "@jaimilgorajiya/password-utils";
 
 (async () => {
   console.log("Testing password-utils...\n");
@@ -352,7 +352,7 @@ Run with: `node test.js`
 ## 📦 What's Included
 
 ```
-@jaimil__gorajiya/password-utils/
+@jaimilgorajiya/password-utils/
 ├── index.js              # Main entry point
 ├── lib/
 │   ├── hash.js          # Password hashing
@@ -406,7 +406,7 @@ See [LICENSE](LICENSE) file for details.
 
 ## � Links
 
-- **npm Package:** [@jaimil__gorajiya/password-utils](https://www.npmjs.com/package/@jaimil__gorajiya/password-utils)
+- **npm Package:** [@jaimilgorajiya/password-utils](https://www.npmjs.com/package/@jaimilgorajiya/password-utils)
 - **GitHub Repository:** [password-utils](https://github.com/jaimilgorajiya/password-utils)
 - **Issues:** [Report a bug](https://github.com/jaimilgorajiya/password-utils/issues)
 - **Author:** [Jaimil Gorajiya](https://github.com/jaimilgorajiya)
