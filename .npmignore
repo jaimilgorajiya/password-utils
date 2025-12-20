@@ -1,27 +1,11 @@
-# Development files
+node_modules
+test
 .git
 .gitignore
-.qodo
-
-# IDE
+.npmignore
+manual-verify.mjs
+repro.js
+.DS_Store
 .vscode
 .idea
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Logs
 *.log
-npm-debug.log*
-
-# Testing
-test/
-tests/
-*.test.js
-*.spec.js
-
-# Documentation (keep README.md)
-docs/
